@@ -15,6 +15,8 @@ lua40_profiler.c:
 #include "lualib.h"
 
 
+lprofP_STATE *S;
+
 /* called by Lua (via the callhook mechanism) */
 static void callhook(lua_State *L, lua_Debug *ar) {
 int currentline;
@@ -32,12 +34,12 @@ lua_Debug previous_ar;
 
         if (!strcmp(ar->event, "call")) {
                 /* entering a function */
-                lprofP_callhookIN((char *)ar->source, (char *)ar->name,
+                lprofP_callhookIN(S, (char *)ar->source, (char *)ar->name,
                         (char *)ar->source, ar->linedefined,
                         currentline);
         }
         else { /* ar->event == "return" */
-                lprofP_callhookOUT();
+                lprofP_callhookOUT(S);
         }
         
 }
@@ -49,7 +51,7 @@ lua_Debug previous_ar;
 /* of 1 (meaning that the function 'main' has been exited)                  */
 static void exit_profiler(lua_State *L) {
         /* leave all functions under execution */
-        while (lprofP_callhookOUT()) ;
+        while (lprofP_callhookOUT(S)) ;
         /* call the original Lua 'exit' function */
    lua_getglobal(L, "_exit");
         lua_call(L, 0, 0);
@@ -90,7 +92,7 @@ float function_call_time;
 
     lua_setcallhook(L, (lua_Hook)callhook);
     /* init with default file name and printing a header line */
-    if (!lprofP_init_core_profiler(NULL, 1, function_call_time)) {
+    if (!(S=lprofP_init_core_profiler(NULL, 1, function_call_time))) {
         printf("luaProfiler error: output file could not be opened!");
         exit(0);
     }
@@ -101,5 +103,3 @@ float function_call_time;
     lua_register(L, "exit", (lua_CFunction)exit_profiler);
 
 }
-
-
