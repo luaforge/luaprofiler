@@ -37,8 +37,6 @@ Design:
    #define ASSERT(e, msg)
 #endif
 
-/* the stack */
-static lprofS_STACK stack_top;
 /* structures to receive stack elements, declared globals */
 /* in the hope they will perform faster                   */
 static lprofS_STACK_RECORD newf;       /* used in 'enter_function' */
@@ -61,19 +59,19 @@ static void compute_total_time(lprofS_STACK_RECORD *e) {
 
 
 /* compute the local time for the current function */
-void lprofM_pause_local_time() {
-        compute_local_time(stack_top);
+void lprofM_pause_local_time(lprofP_STATE* S) {
+        compute_local_time(S->stack_top);
 }
 
 
 /* pause the total timer for all the functions that are in the stack */
-void lprofM_pause_total_time() {
+void lprofM_pause_total_time(lprofP_STATE* S) {
 lprofS_STACK aux;
 
-   ASSERT(stack_top, "pause_total_time: stack_top null");
+   ASSERT(S->stack_top, "pause_total_time: stack_top null");
 
    /* auxiliary stack */
-        aux = stack_top;
+        aux = S->stack_top;
         
         /* pause */
         while (aux) {
@@ -84,33 +82,33 @@ lprofS_STACK aux;
 
 
 /* pause the local and total timers for all functions in the stack */
-void lprofM_pause_function() {
+void lprofM_pause_function(lprofP_STATE* S) {
 
-   ASSERT(stack_top, "pause_function: stack_top null");
+   ASSERT(S->stack_top, "pause_function: stack_top null");
 
-        lprofM_pause_local_time();
-        lprofM_pause_total_time();
+        lprofM_pause_local_time(S);
+        lprofM_pause_total_time(S);
 }
 
 
 /* resume the local timer for the current function */
-void lprofM_resume_local_time() {
+void lprofM_resume_local_time(lprofP_STATE* S) {
 
-   ASSERT(stack_top, "resume_local_time: stack_top null");
+   ASSERT(S->stack_top, "resume_local_time: stack_top null");
                 
    /* the function is in the top of the stack */
-        lprofC_start_timer(&(stack_top->time_marker_function_local_time));
+        lprofC_start_timer(&(S->stack_top->time_marker_function_local_time));
 }
 
 
 /* resume the total timer for all the functions in the stack */
-void lprofM_resume_total_time() {
+void lprofM_resume_total_time(lprofP_STATE* S) {
 lprofS_STACK aux;
 
-   ASSERT(stack_top, "resume_total_time: stack_top null");
+   ASSERT(S->stack_top, "resume_total_time: stack_top null");
         
    /* auxiliary stack */
-        aux = stack_top;
+        aux = S->stack_top;
         
         /* resume */
         while (aux) {
@@ -121,22 +119,22 @@ lprofS_STACK aux;
 
 
 /* resume the local and total timers for all functions in the stack */
-void lprofM_resume_function() {
+void lprofM_resume_function(lprofP_STATE* S) {
 
-   ASSERT(stack_top, "resume_function: stack_top null");
+   ASSERT(S->stack_top, "resume_function: stack_top null");
 
-        lprofM_resume_local_time();
-        lprofM_resume_total_time();
+        lprofM_resume_local_time(S);
+        lprofM_resume_total_time(S);
 }
 
 
 /* the local time for the parent function is paused  */
 /* and the local and total time markers are started */
-void lprofM_enter_function(char *file_defined, char *fcn_name, long linedefined, long currentline) {
+void lprofM_enter_function(lprofP_STATE* S, char *file_defined, char *fcn_name, long linedefined, long currentline) {
         /* the flow has changed to another function: */
    /* pause the parent's function timer timer   */
-   if (stack_top)
-        lprofM_pause_local_time();
+   if (S->stack_top)
+        lprofM_pause_local_time(S);
         /* measure new function */
         lprofC_start_timer(&(newf.time_marker_function_local_time));
         lprofC_start_timer(&(newf.time_marker_function_total_time));
@@ -146,7 +144,7 @@ void lprofM_enter_function(char *file_defined, char *fcn_name, long linedefined,
    newf.current_line = currentline;
         newf.local_time = 0.0;
         newf.total_time = 0.0;
-        lprofS_push(&stack_top, newf);
+        lprofS_push(&(S->stack_top), newf);
 }
 
 
@@ -158,21 +156,27 @@ void lprofM_enter_function(char *file_defined, char *fcn_name, long linedefined,
 /* returns the funcinfo structure                         */
 /* warning: use it before another call to this function,  */
 /* because the funcinfo will be overwritten               */
-lprofS_STACK_RECORD *lprofM_leave_function(int isto_resume) {
+lprofS_STACK_RECORD *lprofM_leave_function(lprofP_STATE* S, int isto_resume) {
 
-   ASSERT(stack_top, "leave_function: stack_top null");
+   ASSERT(S->stack_top, "leave_function: stack_top null");
 
-        leave_ret = lprofS_pop(&stack_top);
+        leave_ret = lprofS_pop(&(S->stack_top));
         compute_local_time(&leave_ret);
         compute_total_time(&leave_ret);
         /* resume the timer for the parent function ? */
         if (isto_resume)
-                lprofM_resume_local_time();
+                lprofM_resume_local_time(S);
         return &leave_ret;
 }
 
 
 /* init stack */
-void lprofM_init() {
-   stack_top = NULL;
+lprofP_STATE* lprofM_init() {
+   lprofP_STATE *S;
+   S = (lprofP_STATE*)malloc(sizeof(lprofP_STATE));
+   if(S) {
+      S->stack_level = 0;
+      S->stack_top = NULL;
+      return S;
+   } else return NULL;
 }

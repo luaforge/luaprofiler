@@ -1,6 +1,6 @@
 include config
 
-COMMON_OBJS= src/clocks.o src/core_profiler.o src/function_meter.o src/stack.o
+COMMON_OBJS= src/clocks.o src/core_profiler.o src/function_meter.o src/stack.o src/compat-5.1.o
 LUANG_OBJS= src/cgilua32_profiler.o
 LUA32_OBJS= src/lua32_profiler.o
 LUA40_OBJS= src/lua40_profiler.o
