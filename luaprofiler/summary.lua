@@ -37,8 +37,8 @@ function CreateSummary(lines, summary)
 
 	-- Note: ignore first line
 	for i = 2, table.getn(lines) do
-		_, _, word = string.find(lines[i], "[^\t]+\t[^\t]+\t([^\t]+)")
-		_, _, local_time, total_time = string.find(lines[i], "[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)")
+		_, _, word = string.find(lines[i], "[^|]+\|[^|]+\|([^|]+)")
+		_, _, local_time, total_time = string.find(lines[i], "[^|]+\|[^|]+\|[^|]+\|[^|]+\|[^|]+\|([^|]+)\|([^|]+)")
 
 		if summary[word] == nil then
 			summary[word] = {};
