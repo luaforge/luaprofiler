@@ -160,10 +160,10 @@ int luaopen_profiler(lua_State *L) {
 	lua_settable(L, -3);
 
 	/* use our own coroutine.create function instead */
-	lua_getglobal(L, "coroutine");
-	lua_pushstring(L, "create");
-	lua_pushcfunction(L, (lua_CFunction)coroutine_create);
-	lua_settable(L, -3);
+/*	lua_getglobal(L, "coroutine");*/
+/*	lua_pushstring(L, "create");*/
+/*	lua_pushcfunction(L, (lua_CFunction)coroutine_create);*/
+/*	lua_settable(L, -3);*/
 
 	luaL_openlib(L, "profiler", prof_funcs, 0);
 
