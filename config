@@ -1,0 +1,13 @@
+
+LUA_NG_INCLUDE= /home/luiz/profiler/luang/include
+LUA_32_INCLUDE= /home/luiz/profiler/lua32/include
+LUA_40_INCLUDE= /home/luiz/profiler/lua40/include
+LUA_50_INCLUDE= /home/luiz/srcs/lua-5.0.2/include
+
+LUA_50_OUTPUT= bin/luaprofiler_lua50.so
+
+INCS= $(LUA_50_INCLUDE)
+CC= gcc
+WARN= -ansi -pedantic -W -Wall
+EXTRA_LIBS=
+CFLAGS= -O2 -DTESTS $(WARN) -I$(INCS)
