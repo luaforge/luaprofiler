@@ -41,7 +41,6 @@ a depth-first search recursive algorithm).
 #define OUT_FILENAME "lprof_%s.out"
 
 /* for faster execution (??) */
-static int stack_level;
 static FILE *outf;
 static lprofS_STACK_RECORD *info;
 static float function_call_time;
@@ -74,38 +73,37 @@ int i;
 
 
 /* computes new stack and new timer */
-void lprofP_callhookIN(char *source, char *func_name, char *file, int linedefined, int currentline) {
-   stack_level++;
-   lprofM_enter_function(file, func_name, linedefined, currentline);
-
+void lprofP_callhookIN(lprofP_STATE* S, char *source, char *func_name, char *file, int linedefined, int currentline) {	
+   S->stack_level++;
+   lprofM_enter_function(S, file, func_name, linedefined, currentline);
 }
 
 
 /* pauses all timers to write a log line and computes the new stack */
 /* returns if there is another function in the stack */
-int lprofP_callhookOUT() {
+int lprofP_callhookOUT(lprofP_STATE* S) {
 
-   if (stack_level == 0) {
+   if (S->stack_level == 0) {
       return 0;
    }
 
-        stack_level--;
+        S->stack_level--;
 
         /* 0: do not resume the parent function's timer yet... */
-        info = lprofM_leave_function(0);
+        info = lprofM_leave_function(S, 0);
         /* writing a log may take too long to be computed with the function's time ...*/
-        lprofM_pause_total_time();
+        lprofM_pause_total_time(S);
    info->local_time += function_call_time;
    info->total_time += function_call_time;
         formats(info->file_defined);
         formats(info->function_name);
-        output("%d|%s|%s|%d|%d|%f|%f\n", stack_level, info->file_defined,
+        output("%d|%s|%s|%d|%d|%f|%f\n", S->stack_level, info->file_defined,
                                     info->function_name, 
                                          info->line_defined, info->current_line,
                                     info->local_time, info->total_time);
    /* ... now it's ok to resume the timer */
-   if (stack_level != 0) {
-      lprofM_resume_function();
+   if (S->stack_level != 0) {
+      lprofM_resume_function(S);
    }
 
    return 1;
@@ -115,14 +113,14 @@ int lprofP_callhookOUT() {
 
 /* opens the log file */
 /* returns true if the file could be opened */
-int lprofP_init_core_profiler(char *_out_filename, int isto_printheader, float _function_call_time) {
-char auxs[256];
-char *s;
-char *randstr;
-char *out_filename;
+lprofP_STATE* lprofP_init_core_profiler(char *_out_filename, int isto_printheader, float _function_call_time) {
+   lprofP_STATE* S;
+   char auxs[256];
+   char *s;
+   char *randstr;
+   char *out_filename;
 
    function_call_time = _function_call_time;
-   stack_level = 0;
    out_filename = (_out_filename) ? (_out_filename):(OUT_FILENAME);
         
    /* the random string to build the logname is extracted */
@@ -143,8 +141,11 @@ char *out_filename;
     }
 
    /* initialize the 'function_meter' */
-   lprofM_init();
-   
-   return 1;
+   S = lprofM_init();
+   if(!S) {
+	fclose(outf);
+	return 0;
+   }
+    
+   return S;
 }
-

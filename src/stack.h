@@ -3,6 +3,8 @@ stack.h:
    Simple stack manipulation
 *****************************************************************************/
 
+#ifndef _STACK_H
+#define _STACK_H
 
 #include <time.h>
 
@@ -23,5 +25,14 @@ struct lprofS_sSTACK_RECORD {
 
 typedef lprofS_STACK_RECORD *lprofS_STACK;
 
+typedef struct lprofP_sSTATE lprofP_STATE;
+	
+struct lprofP_sSTATE {
+   int stack_level;
+   lprofS_STACK stack_top;
+};
+
 void lprofS_push(lprofS_STACK *p, lprofS_STACK_RECORD r);
 lprofS_STACK_RECORD lprofS_pop(lprofS_STACK *p);
+
+#endif
