@@ -35,8 +35,6 @@ static void callhook(lua_State *L, lua_Debug *ar) {
       
    lua_getinfo(L, "nS", ar);
 
-   printf("%i\n",S->stack_level);
-   
    if (!ar->event) {
    	/* entering a function */
 		lprofP_callhookIN(S, (char *)ar->source, (char *)ar->name,
