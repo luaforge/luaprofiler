@@ -97,7 +97,7 @@ int lprofP_callhookOUT(lprofP_STATE* S) {
    info->total_time += function_call_time;
         formats(info->file_defined);
         formats(info->function_name);
-        output("%d|%s|%s|%d|%d|%f|%f\n", S->stack_level, info->file_defined,
+        output("%d\t%s\t%s\t%d\t%d\t%f\t%f\n", S->stack_level, info->file_defined,
                                     info->function_name, 
                                          info->line_defined, info->current_line,
                                     info->local_time, info->total_time);
@@ -130,6 +130,9 @@ lprofP_STATE* lprofP_init_core_profiler(char *_out_filename, int isto_printheade
         randstr = s;
     }
 
+	if(randstr[strlen(randstr)-1]=='.')
+		randstr[strlen(randstr)-1]='\0';
+	
     sprintf(auxs, out_filename, randstr);
     outf = fopen(auxs, "a");
     if (outf == NULL) {
@@ -137,7 +140,7 @@ lprofP_STATE* lprofP_init_core_profiler(char *_out_filename, int isto_printheade
     }
 
     if (isto_printheader) {
-        output("stack_level|file_defined|function_name|line_defined|current_line|local_time|total_time\n");
+        output("stack_level\tfile_defined\tfunction_name\tline_defined\tcurrent_line\tlocal_time\ttotal_time\n");
     }
 
    /* initialize the 'function_meter' */
