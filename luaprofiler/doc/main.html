@@ -1,0 +1,152 @@
+<html><head><!-- See Copyright Notice in license.html--><title>LuaProfiler: Time profiler for the Lua programming language</title>
+
+<style type="text/css">
+ul { list-style-type: disc };
+</style></head>
+
+
+<body bgcolor="#ffffff">
+
+<hr>
+
+<center>
+<table border="0" cellspacing="2" cellpadding="2">
+<tbody><tr><td align="center"><a href="http://www.keplerproject.org/luaprofiler">
+<img border="0" alt="LuaProfiler logo" src="imgs/luaprofiler.png"></a>
+</td></tr><tr><td align="center"><big><b>LuaProfiler</b></big></td></tr>
+<tr><td align="center" valign="top">Time profiler for the
+<a href="http://www.lua.org/">Lua</a>
+programming language</td></tr>
+</tbody></table>
+</center>
+<p>
+
+</p><center><small>
+<a href="#over">overview</a> -
+<a href="#version">current version</a> -
+<a href="#download">download</a> -
+<a href="#new">news</a> -
+<a href="#installation">installation</a> -
+<a href="manual.html">manual</a> -
+<a href="#references">references</a> -
+<a href="license.html">license</a> -
+<a href="#hist">history</a> -
+<a href="#contact">contact</a>
+</small></center>
+<p>
+
+</p><hr>
+
+<h2>Contents</h2>
+<p>
+</p><ul>
+<li> <a href="#over">Overview</a>
+</li><li> <a href="#version">Current Version</a>
+</li><li> <a href="#download">Download</a>
+</li><li> <a href="#new">What's new</a>
+</li><li> <a href="#installation">Installation</a>
+</li><li> <a href="manual.html">User's manual</a>
+	<ul>
+	<li> <a href="manual.html#introduction">Introduction</a>
+  </li><li> <a href="manual.html#install">Installation and compilation</a>
+	</li><li> <a href="manual.html#analyzer">The Analyzer</a>
+	</li></ul>
+</li><li> <a href="#references">References</a>
+</li><li> <a href="#hist">History</a>
+</li></ul>
+<p></p>
+
+
+<a name="over">
+</a><h2><a name="over">Overview</a></h2>
+<p><a name="over">LuaProfiler is a time profiler designed to help finding bottlenecks on your Lua program.
+</p><p>
+LuaProfiler is free software and uses the same
+<a href="license.html">license</a>
+as Lua 5.0.
+
+<a name="version">
+</a></p><h2><a name="version">Current version</a></h2>
+<p><a name="version">LuaProfiler version 1.1 beta is available for download. It now includes support to Lua 5.0.</a></p>
+
+<a name="download">
+</a><h2><a name="download">Download</a></h2>
+
+<a name="download">LuaProfiler can be downloaded (source and binaries) from the following link: </a><p>
+
+</p><blockquote>
+<a href="http://luaforge.net/projects/luaprofiler/files">LuaProfiler at luaforge.net</a><br>
+</blockquote><p>
+
+<a name="new">
+</a></p><h2><a name="new">What's new</a></h2>
+<p>
+</p><ul>
+<a name="new">  <li>[jul 16 2004] Version 1.1 beta released (support for Lua 5.0)
+  </li><li>[mar 04 2002] Version 1.0 released (supporting Lua 3.2, Lua NG and Lua 4.0)
+</li></a></ul>
+<p></p>
+
+
+<a name="installation"></a>
+<h2>Installation</h2>
+
+<p>LuaProfiler can be built from the scratch by configuring and running the makefile
+or can be used by downloading any of the binaries.</p>
+
+<p>For older versions of Lua (3.2 and 4.0), the profiler must be integrated on the main C source code
+in order to open the profiler lib. With Lua 5.0 and the support for dynamic library loading, nothing
+must be done on the original C sources of your application: just put the library on the library path
+and execute the simple lua script to load it before your application loads its first lua file. For details
+please take a look at the file "bin/lua50" in the source distribution.</p>
+
+<p>In order to analyze the raw profile data produced by a profiling session, lua scripts present on the
+source distribution are provided under the directory "analyzer" -- the raw profile data can also be analyzed
+by a spreadsheet.
+The output from the analyzer generates a GDL file for use with the aiSee program -- see below.</p>
+
+<a name="references"></a>
+<h2>References</h2>
+<p>LuaProfiler takes great advantage from the integration with <a href="www.aisee.com">aiSee</a> -- a graph visualization tool. It is recommended that you download aiSee and use it with the LuaProfiler.</p>
+<p>For instructions on how to use aiSee please refer to "analyzer.txt" present on the source distribution.</p>
+
+<a name="hist">
+</a><h2><a name="hist">History</a></h2>
+
+<h4><a name="hist">LuaProfiler 1.1 beta</a></h4>
+<p><a name="hist">New support for Lua 5.0.</p>
+<h4><a name="hist">LuaProfiler 1.0</a></h4>
+<p><a name="hist">Version 1.0 was the first public release with support for Lua 3.2, Lua NG, Lua 4.0 and aiSee integration</p>
+
+LuaProfiler development was sponsored by
+<a href="http://www.fabricadigital.com.br/">F�brica Digital</a> and FINEP.
+
+
+<a name="contact"></a>
+<h2>Contact</h2>
+
+<p>
+For more information please
+<a href="mailto:tomas-NO-SPAM-THANKS@keplerproject.org">contact</a>
+us.
+Comments are welcome!
+</p>
+
+
+<p>
+</p><center><small>
+<a href="#over">overview</a> -
+<a href="#version">current version</a> -
+<a href="#download">download</a> -
+<a href="#new">news</a> -
+<a href="#installation">installation</a> -
+<a href="manual.html">manual</a> -
+<a href="#references">references</a> -
+<a href="license.html">license</a> -
+<a href="#hist">history</a> -
+<a href="#contact">contact</a>
+</small></center>
+<p>
+
+</p><hr>
+</body></html>
