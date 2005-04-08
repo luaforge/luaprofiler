@@ -13,6 +13,7 @@ lua50_profiler.c:
 
 #include "lua.h"
 #include "lauxlib.h"
+#include "compat-5.1.h"
 
 /* Indices for the main profiler stack and for the original exit function */
 static int exit_id;
@@ -175,7 +176,7 @@ int luaopen_profiler(lua_State *L) {
     /* a simmilar way to this:                                           */
     /* lua -e 'local f, e1, e2 = loadlib("./luaprofiler_lua50.so", "init_profiler") assert(f, (e1 or "").."\t"..(e2 or "")) f()' <normal_lua_starting_point.lua>   */
 
-    lprofP_callhookIN(S, "", "(null)", "@init_profiler.lua", 0, -1);
+    /*lprofP_callhookIN(S, "", "(null)", "@init_profiler.lua", 0, -1);*/
 	lprofP_callhookIN(S, "", "luaopen_profiler", "(C)", -1, -1);
 
 	return 1;
