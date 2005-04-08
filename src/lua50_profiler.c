@@ -101,6 +101,67 @@ static int profiler_resume(lua_State *L) {
   return 0;
 }
 
+static int profiler_init(lua_State *L) {
+	lprofP_STATE* S;
+	const char* outfile;
+    float function_call_time;
+
+	function_call_time = calcCallTime(L);
+
+	outfile = NULL;
+	if(lua_gettop(L) == 1)
+		outfile = luaL_checkstring(L, -1);
+	
+    lua_sethook(L, (lua_Hook)callhook, LUA_MASKCALL | LUA_MASKRET, 0);
+    /* init with default file name and printing a header line */
+    if (!(S=lprofP_init_core_profiler(outfile, 1, function_call_time))) {
+        luaL_error(L,"LuaProfiler error: output file could not be opened!");
+		lua_pushnil(L);
+		return 1;
+    }
+
+	lua_pushlightuserdata(L, L);
+	lua_pushlightuserdata(L, S);
+	lua_settable(L, LUA_REGISTRYINDEX);
+	
+    /* use our own exit function instead */
+	lua_getglobal(L, "os");
+	lua_pushlightuserdata(L, &exit_id);
+	lua_pushstring(L, "exit");
+	lua_gettable(L, -3);
+	lua_settable(L, LUA_REGISTRYINDEX);
+	lua_pushstring(L, "exit");
+	lua_pushcfunction(L, (lua_CFunction)exit_profiler);
+	lua_settable(L, -3);
+
+	/* use our own coroutine.create function instead */
+/*	lua_getglobal(L, "coroutine");*/
+/*	lua_pushstring(L, "create");*/
+/*	lua_pushcfunction(L, (lua_CFunction)coroutine_create);*/
+/*	lua_settable(L, -3);*/
+
+	/* the following statement is to simulate how the execution stack is */
+    /* supposed to be by the time the profiler is activated when loaded  */
+    /* as a library.                                                     */
+
+	lprofP_callhookIN(S, "", "profiler_init", "(C)", -1, -1);
+	
+	lua_pushboolean(L, 1);
+	return 1;
+}
+
+static int profiler_stop(lua_State *L) {
+	lprofP_STATE* S;
+    lua_sethook(L, NULL, LUA_MASKCALL | LUA_MASKRET, 0);
+	lua_pushlightuserdata(L, L);
+	lua_gettable(L, LUA_REGISTRYINDEX);
+	S = (lprofP_STATE*)lua_touserdata(L, -1);
+	/* leave all functions under execution */
+	while (lprofP_callhookOUT(S));
+	lua_pushboolean(L, 1);
+	return 1;
+}
+
 /* calculates the approximate time Lua takes to call a function */
 static float calcCallTime(lua_State *L) {
 clock_t timer;
@@ -130,54 +191,12 @@ char lua_code[] = "                                     \
 static const luaL_reg prof_funcs[] = {
 	{ "pause", profiler_pause },
 	{ "resume", profiler_resume },
+	{ "start", profiler_init },
+	{ "stop", profiler_stop },
 	{ NULL, NULL }
 };
 
 int luaopen_profiler(lua_State *L) {
-	lprofP_STATE* S;
-    float function_call_time;
-
-	function_call_time = calcCallTime(L);
-
-    lua_sethook(L, (lua_Hook)callhook, LUA_MASKCALL | LUA_MASKRET, 0);
-    /* init with default file name and printing a header line */
-    if (!(S=lprofP_init_core_profiler(NULL, 1, function_call_time))) {
-        printf("luaProfiler error: output file could not be opened!");
-        exit(0);
-    }
-
-	lua_pushlightuserdata(L, L);
-	lua_pushlightuserdata(L, S);
-	lua_settable(L, LUA_REGISTRYINDEX);
-	
-    /* use our own exit function instead */
-	lua_getglobal(L, "os");
-	lua_pushlightuserdata(L, &exit_id);
-	lua_pushstring(L, "exit");
-	lua_gettable(L, -3);
-	lua_settable(L, LUA_REGISTRYINDEX);
-	lua_pushstring(L, "exit");
-	lua_pushcfunction(L, (lua_CFunction)exit_profiler);
-	lua_settable(L, -3);
-
-	/* use our own coroutine.create function instead */
-/*	lua_getglobal(L, "coroutine");*/
-/*	lua_pushstring(L, "create");*/
-/*	lua_pushcfunction(L, (lua_CFunction)coroutine_create);*/
-/*	lua_settable(L, -3);*/
-
 	luaL_openlib(L, "profiler", prof_funcs, 0);
-
-    /* the following statement is to simulate how the execution stack is */
-    /* supposed to be by the time the profiler is activated when loaded  */
-    /* as a library.                                                     */
-
-    /* for this to be true, your Lua 5.0 environment must be started in  */
-    /* a simmilar way to this:                                           */
-    /* lua -e 'local f, e1, e2 = loadlib("./luaprofiler_lua50.so", "init_profiler") assert(f, (e1 or "").."\t"..(e2 or "")) f()' <normal_lua_starting_point.lua>   */
-
-    /*lprofP_callhookIN(S, "", "(null)", "@init_profiler.lua", 0, -1);*/
-	lprofP_callhookIN(S, "", "luaopen_profiler", "(C)", -1, -1);
-
 	return 1;
 }

@@ -152,3 +152,20 @@ lprofP_STATE* lprofP_init_core_profiler(char *_out_filename, int isto_printheade
     
    return S;
 }
+
+lprofP_STATE* lprofP_create_profiler(float _function_call_time) {
+   lprofP_STATE* S;
+
+   function_call_time = _function_call_time;
+
+   /* initialize the 'function_meter' */
+   S = lprofM_init();
+   if(!S) {
+	return 0;
+   }
+    
+   return S;
+}
+
+void lprofP_begin_profiling(lprofP_STATE* S, char *_out_filename, int isto_printheader) {
+}

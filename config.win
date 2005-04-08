@@ -12,3 +12,4 @@ CC= cl
 WARN= -W1
 EXTRA_LIBS=
 CFLAGS= -O2 -DTESTS $(WARN) -I$(INCS) -I.\src
+
