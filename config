@@ -1,10 +1,10 @@
 
-LUA_NG_INCLUDE= /home/luiz/profiler/luang/include
-LUA_32_INCLUDE= /home/luiz/profiler/lua32/include
-LUA_40_INCLUDE= /home/luiz/profiler/lua40/include
+LUA_NG_INCLUDE= /usr/local/include
+LUA_32_INCLUDE= /usr/local/include
+LUA_40_INCLUDE= /usr/local/include
 LUA_50_INCLUDE= /usr/local/include
 
-LUA_50_OUTPUT= bin/luaprofiler_lua50.so
+LUA_50_OUTPUT= bin/libprofiler.so
 
 INCS= $(LUA_50_INCLUDE)
 CC= gcc

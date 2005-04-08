@@ -1,1 +1,1 @@
-Please refer to the documentation under "docs"
+Please refer to the documentation under "doc/us"
