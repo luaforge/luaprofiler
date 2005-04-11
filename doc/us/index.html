@@ -1,6 +1,3 @@
-<html>
-<head>
-<!-- See Copyright Notice in license.html-->
 <title>LuaProfiler: Time profiler for the Lua programming language</title>
 <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css">
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -23,24 +20,28 @@
 
 <div id="navigation">
 <h1>LuaProfiler</h1>
+
 	<ul>
-		<li><a href="index.html">Home</a></strong>
+		<li><strong>Home</strong>
 			<ul>
-				<li> <a href="index.html#over">Overview</a></li>
-				<li> <a href="index.html#version">Current Version</a></li>
-				<li> <a href="index.html#download">Download</a></li>
-				<li> <a href="index.html#installation">Installation</a></li>
-				<li> <a href="index.html#hist">History</a></li>
-				<li> <a href="index.html#credits">Credits</a></li>
-				<li> <a href="index.html#contact">Contact</a></li>
+				<li> <a href="#over">Overview</a></li>
+				<li> <a href="#version">Current Version</a></li>
+				<li> <a href="#download">Download</a></li>
+
+				<li> <a href="#installation">Installation</a></li>
+				<li> <a href="#hist">History</a></li>
+				<li> <a href="#credits">Credits</a></li>
+				<li> <a href="#contact">Contact</a></li>
 			</ul>
+
 		</li>
-		<li><strong>Manual</strong></a>
+		<li><a href="manual.html">Manual</a>
 			<ul>
-				<li> <a href="#introduction">Introduction</a></li>
-				<li> <a href="#install">Installation and</a></li>
-				<li> <a href="#install">compilation</a></li>
-				<li> <a href="#analyzer">Using LuaProfiler</a>
+				<li> <a href="manual.html#introduction">Introduction</a></li>
+				<li> <a href="manual.html#install">Installation and</a></li>
+				<li> <a href="manual.html#install">compilation</a></li>
+
+				<li> <a href="manual.html#analyzer">Using LuaProfiler</a>
 			</ul>
 		</li>
 		<li><a href="license.html">License</a></li>
@@ -49,97 +50,69 @@
 
 <div id="content">
 
-<h2><a name="introduction"></a>Introduction</h2>
+<h2><a name="over"></a>Overview</h2>
 
-<p>	<ul><i>More computing sins are committed in the name of efficiency (without <br>
-	necessarily achieving it) than for any other single reason - including <br>
-	blind stupidity. <br>
-	- W.A. Wulf </i></ul>
+<p>LuaProfiler is a time profiler designed to help finding bottlenecks on your Lua program. If you require LuaProfiler into your program, it will generate a log of all your function calls and their respective running times. You can use this log to generate a summary of the functions you program uses, along with how long it stayed in each of them, or you can import the log into a spreadsheet to analyze it further.</p>
+
+<p>LuaProfiler is free software and uses the same
+<a href="license.html">license</a>as Lua 5.0.</p>
+
+<h2><a name="version"></a>Current version</h2>
+
+<p>The beta version of LuaProfiler version 2.0.0 (for Lua 3.2, 4.0 and 5.0) is available for download. It has updated documentation and modified log file format. The final version 2.0.0 will have the support for profiling coroutines.</a></p>
+
+<h2><a name="download"></a>Download</h2>
+
+<p>LuaProfiler can be downloaded (source and binaries for Win32) from the 
+<a href="http://luaforge.net/projects/luaprofiler/files">LuaForge page</a>.</p>
+
+<h2><a name="installation"></a>Installation</h2>
+
+<p>LuaProfiler can be built from the scratch by configuring and running the makefile
+or can be used on Win32 by downloading the binaries.</p>
+
+<p>For older versions of Lua (3.2 and 4.0), the profiler must be embedded in your application (linked with it). You must call the function to start profiling from C code. With Lua 5.0 and the support for dynamic library loading, nothing must be done on the original C sources of your application: just put the library on the library path and <i>require</i> it. For details please check the <a href="manual.html">manual</a>.</p>
+
+<p>In order to analyze the raw profile data produced by a profiling session, you must pass the profile data to the <b>summary.lua</b> script included in the distribution. The raw profile data can also be analyzed
+by a spreadsheet.</p>
+
+<h2><a name="hist"></a>History</h2>
+
+<ul>
+	<li>[apr 08 2004] Version 2.0.0 beta released (changed logfile format, coroutines)</li>
+	<li>[jul 16 2004] Version 1.1 beta released (support for Lua 5.0)</li>
+
+	<li>[mar 04 2002] Version 1.0 released (supporting Lua 3.2, Lua NG and Lua 4.0)</li>
+</ul>
+
+<p>Version 1.1 beta introduced support for Lua 5.0.</p>
+
+<p>Version 1.0 was the first public release with support for Lua 3.2, Lua NG and Lua 4.0.</p>
+
+<h2><a name="credits"></a>Credits</h2>
+
+LuaProfiler development is sponsored by
+<a href="http://www.fabricadigital.com.br/">Fábrica Digital</a> and FINEP.
+
+
+<h2><a name="contact"></a>Contact</h2>
+
+<p>
+For more information please
+<a href="mailto:tomas-NO-SPAM-THANKS@keplerproject.org">contact</a>
+us. Comments are welcome!
 </p>
-
-<p>There are several reasons to not optimize your program prematurely. Some 
-    of them include unnecessary loss of time, maintainability and robustness. 
-</p>
-
-<p>    A profiler tells you what parts of your program are slow, so you can 
-    focus on them and forget about the rest. The slow parts are called 
-    bottlenecks. A bottleneck is a part of your program that is much slower than 
-    the rest of the program. 
-</p>
-
-<p>    If you are programming in Lua, as a rule of thumb once you found a 
-    bottleneck you have two options: fine tune your code, possibly rewriting 
-    some functions in C or, arguably the better option, redesigning your code. </p>
-
-<p>    To fine tune your Lua code, all you need to know is how slow the functions
-    are. Then you can rewrite some of them, possibly in C. This option not
-    necessarily improves significantly your performance. 
-</p>
-
-<p>    To redesign your Lua code, you need more than that: you'll need to know 
-    how slow the functions are and which context makes them slow. A general
-    solution aims to avoid unnecessary calls and loops.</p>
-
-<p>    When you do that, you reduce the complexity of your code, which can give 
-    you much more significant speed improvements in some situations. If you 
-    still need to speed things up and redesigning is not a viable option 
-    anymore, go ahead and fine tune the slower functions. </p>
-
-<p>    To fine tune, you need only timing numbers, but to redesign you need
-    a better view of your program. This profiler helps you in these two 
-    processes. 
-</p>
-
-<p>    For flexibility reasons, it is divided in 2 parts: the Lua code profiler, 
-    written in C to maximize the precision of timing, and the analyzer, written 
-    in Lua, that generates information about the program execution. 
-</p>
-
-<p>    The code profiler produces as result a table of function calls and times 
-    that is usable by the analyzer itself or by a spreadsheet, so you can 
-    analyze the results numerically to help you to fine tune your program. </p>
-
-<h2><a name="install"></a>Compilation and installation</h2>
-
-<p>	LuaProfiler can profile programs written in Lua 3.2, Lua 4.0, Lua 5.0 and in LuaNG
-(used by older versions of CGILua).
-</p>
-
-<p>Edit the <em>config</em> and <em>Makefile</em> according to your Lua installation, then type make.</p>
-
-<h2><a name="analyzer"></a>Using LuaProfiler</h2>
-
-<p>To profile your program for versions of Lua prior to 5.0, include the "luaProfiler.h" header into your main module,
-	include a call to "init_profiler(L)" after opening the Lua library and recompile it
-	using the appropriate LuaProfiler lib. If you are profiling Lua 3.2 programs,
-	consider "L" to be NULL.</p>
-
-<p>For Lua 5.0, the process is a bit different: we don't need to modify the executable
-	file (thanks to compat-5.1 and loadlib). Just put "libprofiler.so" on the library path and do <strong>require"profiler"</strong> in your script. This will create a global variable named <emph>profiler</emph>, a table containing the functions <emph>start</emph> and <emph>stop</emph>. Call <emph>profiler.start</emph> to begin profiling, and <emph>profiler.stop</emph> to stop profiling.<p>
-
-<p>All you need now is to run your program and get the output generated by the
-	profiler. The output file is written to the working directory of the program,
-	in a file like "lprof_randomid.out".
-	By now, a line is generated for every function call in your program, which may
-	leed to huge files. Be careful.</p>
-
-<p>LuaProfiler includes a script, <em>summary.lua</em>, that analyzes the output the profiler generates and then outputs a table with the functions used by your program and their running times, ordered according to how much of the total execution time of your program the function used. This script needs to be interpreted by Lua 5.0.</p>
-
-<p>Assuming the Lua 5.0 interpreter is in your path, and both summary.lua and your output file are in the same directory, switch to the directory where the output file is and type:</p>
-
-<p><pre>     lua summary.lua lprof_randomid.out</pre></p>
-
-<p>You can also import the output file into a spreadsheet and analyze it there. Each line of the output file is a function call. The first line is a header that explains what each column contains.</p>
 
 </div> <!-- id="content" -->
 
 </div> <!-- id="main" -->
 
 <div id="about">
+
 	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
 	<p><small>
 
-	$Id: index.html,v 1.2 2005-04-11 17:53:15 mascarenhas Exp $
+	$Id: index.html,v 1.3 2005-04-11 18:48:14 mascarenhas Exp $
 	</small></p>
 </div> <!-- id="about" -->
 
