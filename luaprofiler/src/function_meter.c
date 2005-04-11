@@ -132,20 +132,34 @@ void lprofM_resume_function(lprofP_STATE* S) {
 /* the local time for the parent function is paused  */
 /* and the local and total time markers are started */
 void lprofM_enter_function(lprofP_STATE* S, char *file_defined, char *fcn_name, long linedefined, long currentline) {
-        /* the flow has changed to another function: */
+   char* prev_name;
+   char* cur_name;
+   /* the flow has changed to another function: */
    /* pause the parent's function timer timer   */
-   if (S->stack_top)
-        lprofM_pause_local_time(S);
-        /* measure new function */
-        lprofC_start_timer(&(newf.time_marker_function_local_time));
-        lprofC_start_timer(&(newf.time_marker_function_total_time));
-        newf.file_defined = file_defined;
-        newf.function_name = fcn_name;
-        newf.line_defined = linedefined;
+   if (S->stack_top) {
+      lprofM_pause_local_time(S);
+      prev_name = S->stack_top->function_name;
+   } else prev_name = "top level";
+   /* measure new function */
+   lprofC_start_timer(&(newf.time_marker_function_local_time));
+   lprofC_start_timer(&(newf.time_marker_function_total_time));
+   newf.file_defined = file_defined;
+   if(fcn_name != NULL) {
+      newf.function_name = fcn_name;
+   } else if(strcmp(file_defined, "=[C]") == 0) {
+	  cur_name = (char*)malloc(sizeof(char)*(strlen("called from ")+strlen(prev_name)+1));
+	  sprintf(cur_name, "called from %s", prev_name);
+	  newf.function_name = cur_name;
+   } else {
+	  cur_name = (char*)malloc(sizeof(char)*(strlen(file_defined)+12));
+	  sprintf(cur_name, "%s:%i", file_defined, linedefined);
+	  newf.function_name = cur_name;
+   }	   
+   newf.line_defined = linedefined;
    newf.current_line = currentline;
-        newf.local_time = 0.0;
-        newf.total_time = 0.0;
-        lprofS_push(&(S->stack_top), newf);
+   newf.local_time = 0.0;
+   newf.total_time = 0.0;
+   lprofS_push(&(S->stack_top), newf);
 }
 
 
