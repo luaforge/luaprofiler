@@ -13,3 +13,7 @@ lua5: $(COMMON_OBJS) $(LUA50_OBJS)
 
 clean:
 	rm -f $(LUA_50_OUTPUT) src/*.o
+
+install:
+	install -m 0755 $(LUA_50_OUTPUT) /usr/local/lib/lua/5.0
+
