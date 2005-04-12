@@ -65,7 +65,26 @@ global_t = 0
 profile_info = {}
 
 -- Check file type
-file = io.open(arg[1])
+local verbose = false
+local filename
+if arg[1] == "-v" or arg[1] == "-V" then
+  verbose = true
+  filename = arg[2]
+else
+  filename = arg[1]
+end
+if filename then
+  file = io.open(filename)
+else
+  print("Usage")
+  print("-----")
+  print("lua summary.lua [-v] <profile_log>")
+  os.exit()
+end
+if not file then
+  print("File " .. filename .. " does not exist!")
+  os.exit()
+end
 firstline = file:read(11)
 
 -- File is single profile
@@ -102,12 +121,20 @@ for k, v in pairs(profile_info) do table.insert(sorted, v) end
 table.sort(sorted, function (a, b) return tonumber(a["info"]["total"]) > tonumber(b["info"]["total"]) end)
 
 -- Output summary
-print("Node name\tCalls\tAverage per call\tTotal time\t%Time")
+if verbose then
+  print("Node name\tCalls\tAverage per call\tTotal time\t%Time")
+else
+  print("Node name\tTotal time")
+end
 for k, v in pairs(sorted) do
 	if v["info"]["func"] ~= "(null)" then
 		local average = v["info"]["total"] / v["info"]["calls"]
 		local percent = 100 * v["info"]["total"] / global_t
-		print(v["info"]["func"] .. "\t" .. v["info"]["calls"] .. "\t" .. average .. "\t" .. v["info"]["total"] .. "\t" .. percent)
+		if verbose then
+		  print(v["info"]["func"] .. "\t" .. v["info"]["calls"] .. "\t" .. average .. "\t" .. v["info"]["total"] .. "\t" .. percent)
+		else
+		  print(v["info"]["func"] .. "\t" .. v["info"]["total"])
 		end
+	end
 	end
 
