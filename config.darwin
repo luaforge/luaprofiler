@@ -1,0 +1,15 @@
+
+LUA_NG_INCLUDE= /usr/local/include
+LUA_32_INCLUDE= /usr/local/include
+LUA_40_INCLUDE= /usr/local/include
+LUA_50_INCLUDE= /Users/fabio/Desktop/lua-5.0.2/include
+
+LUA_50_OUTPUT= bin/libprofiler.so
+
+LUA50_LIBS=\development\kepler-bin\bin\lua50.lib \development\kepler-bin\bin\liblua50.lib
+
+INCS= $(LUA_50_INCLUDE)
+CC= gcc
+WARN= -ansi -pedantic -W -Wall
+EXTRA_LIBS=
+CFLAGS= -O2 -DTESTS $(WARN) -I$(INCS) -I./src
