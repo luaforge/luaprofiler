@@ -1,7 +1,10 @@
-LUA_NG_INCLUDE= \home\luiz\profiler\luang\includeLUA_32_INCLUDE= \home\luiz\profiler\lua32\includeLUA_40_INCLUDE= \home\luiz\profiler\lua40\includeLUA_50_INCLUDE= \development\lua-5.0.2\include
+LUA_NG_INCLUDE= \home\luiz\profiler\luang\include
+LUA_32_INCLUDE= \home\luiz\profiler\lua32\include
+LUA_40_INCLUDE= \home\luiz\profiler\lua40\include
+LUA_50_INCLUDE= \development\lua50\include
 LUA_50_OUTPUT= bin\profiler.dll
 
-LUA50_LIBS=\path\to\luabinaries\lib\lua50.lib 
+LUA50_LIBS=\development\lua50\lib\vc6\lua50.lib 
 
 INCS= $(LUA_50_INCLUDE)
 CC= cl
