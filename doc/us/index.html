@@ -1,6 +1,10 @@
-﻿<title>LuaProfiler: Time profiler for the Lua programming language</title>
-<link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css">
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html>
+<head>
+    <title>LuaProfiler: Time profiler for the Lua programming language</title>
+    <link rel="stylesheet" href="http://www.keplerproject.org/doc.css" type="text/css">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 </head>
 
 <body>
@@ -9,8 +13,7 @@
 	
 <div id="product">
 	<div id="product_logo"><a href="http://www.keplerproject.org/luaprofiler">
-		<img alt="LuaProfiler logo" src="imgs/luaprofiler.png">
-
+		<img alt="LuaProfiler logo" src="luaprofiler.png">
 	</a></div>
 	<div id="product_name"><big><b>LuaProfiler</b></big></div>
 	<div id="product_description">Time profiler for the Lua programming language</div>
@@ -27,7 +30,6 @@
 				<li> <a href="#over">Overview</a></li>
 				<li> <a href="#version">Current Version</a></li>
 				<li> <a href="#download">Download</a></li>
-
 				<li> <a href="#installation">Installation</a></li>
 				<li> <a href="#hist">History</a></li>
 				<li> <a href="#credits">Credits</a></li>
@@ -38,9 +40,8 @@
 		<li><a href="manual.html">Manual</a>
 			<ul>
 				<li> <a href="manual.html#introduction">Introduction</a></li>
-				<li> <a href="manual.html#install">Installation and</a></li>
-				<li> <a href="manual.html#install">compilation</a></li>
-
+				<li> <a href="manual.html#install">Installation</a></li>
+				<li> <a href="manual.html#install">Compilation</a></li>
 				<li> <a href="manual.html#analyzer">Using LuaProfiler</a>
 			</ul>
 		</li>
@@ -52,42 +53,50 @@
 
 <h2><a name="over"></a>Overview</h2>
 
-<p>LuaProfiler is a time profiler designed to help finding bottlenecks on your Lua program. If you require LuaProfiler into your program, it will generate a log of all your function calls and their respective running times. You can use this log to generate a summary of the functions you program uses, along with how long it stayed in each of them, or you can import the log into a spreadsheet to analyze it further.</p>
+<p>LuaProfiler is a time profiler designed to help finding bottlenecks on your
+<a href="http://www.lua.org">Lua</a> program. If you <code>require</code> LuaProfiler
+into your program, it will generate a log of all your function calls and their
+respective running times. You can use this log to generate a summary of the functions
+you program uses, along with how long it stayed in each of them, or you can import
+the log into a spreadsheet to analyze it further.</p>
 
 <p>LuaProfiler is free software and uses the same
 <a href="license.html">license</a>as Lua 5.0.</p>
 
 <h2><a name="version"></a>Current version</h2>
 
-<p>The beta version of LuaProfiler version 2.0.0 (for Lua 3.2, 4.0.1 and 5.0.2) is available for download. It has updated documentation and modified log file format. The final version 2.0.0 will have the support for profiling coroutines.</a></p>
+<p>The current version of LuaProfiler is 2.0 Beta and is available for download.
+It has the updated documentation and modified log file format.</p>
 
 <h2><a name="download"></a>Download</h2>
 
-<p>LuaProfiler can be downloaded (source, and binaries for Win32) from the 
+<p>LuaProfiler can be downloaded from the 
 <a href="http://luaforge.net/projects/luaprofiler/files">LuaForge page</a>.</p>
 
 <h2><a name="installation"></a>Installation</h2>
 
-<p>LuaProfiler can be built from the scratch by configuring and running the makefile
-or can be used on Win32 by downloading the binaries.</p>
+<p>LuaProfiler can be built from the scratch by configuring and running its Makefile.</p>
 
-<p>For older versions of Lua (3.2 and 4.0), the profiler must be embedded in your application (linked with it). You must call the function to start profiling from C code. With Lua 5.0 and the support for dynamic library loading, nothing must be done on the original C sources of your application: just put the library on the library path and <i>require</i> it. For details please check the <a href="manual.html">manual</a>.</p>
+<p>if you are using the
+<a href="http://luaforge.net/projects/luabinaries/">LuaBinaries</a> for Lua 5.0, just put
+the compiled library on the library path and <code>require</code> it. For details please
+check the <a href="manual.html">manual</a>.</p>
 
-<p>In order to analyze the raw profile data produced by a profiling session, you must pass the profile data to the <b>summary.lua</b> script included in the distribution. The raw profile data can also be analyzed
+<p>For older versions of Lua (3.2 and 4.0), the profiler must be embedded in your
+application (i.e. linked with it). You must call the function to start profiling from C code.
+
+<p>In order to analyze the raw profile data produced by a profiling session, you may pass the
+profile data to the <b>summary.lua</b> script included in the distribution. The raw profile data can also be analyzed
 by a spreadsheet.</p>
 
 <h2><a name="hist"></a>History</h2>
 
 <ul>
-	<li>[may 16 2005] Version 2.0.0 beta released (changed logfile format, coroutines)</li>
-	<li>[jul 16 2004] Version 1.1 beta released (support for Lua 5.0)</li>
+	<li>[may 16 2005] Version 2.0 Beta released (changed logfile format)</li>
+	<li>[jul 16 2004] Version 1.1 Beta released (support for Lua 5.0)</li>
 
 	<li>[mar 04 2002] Version 1.0 released (supporting Lua 3.2, Lua NG and Lua 4.0)</li>
 </ul>
-
-<p>Version 1.1 beta introduced support for Lua 5.0.</p>
-
-<p>Version 1.0 was the first public release with support for Lua 3.2, Lua NG and Lua 4.0.</p>
 
 <h2><a name="credits"></a>Credits</h2>
 
@@ -112,7 +121,7 @@ us. Comments are welcome!
 	<p><a href="http://validator.w3.org/check?uri=referer"><img src="http://www.w3.org/Icons/valid-xhtml10" alt="Valid XHTML 1.0!" height="31" width="88" /></a></p>
 	<p><small>
 
-	$Id: index.html,v 1.4 2005-05-17 22:59:12 mascarenhas Exp $
+	$Id: index.html,v 1.5 2005-05-20 12:29:51 uid20002 Exp $
 	</small></p>
 </div> <!-- id="about" -->
 
