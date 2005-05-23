@@ -1,13 +1,14 @@
+LUA_NG_INCLUDE= \home\luiz\profiler\luang\include
+LUA_32_INCLUDE= \home\luiz\profiler\lua32\include
+LUA_40_INCLUDE= \home\luiz\profiler\lua40\include
+LUA_50_INCLUDE= \development\lua50\include
+LUA_50_OUTPUT= bin\profiler.dll
 
-LUA_NG_INCLUDE= /usr/local/include
-LUA_32_INCLUDE= /usr/local/include
-LUA_40_INCLUDE= /usr/local/include
-LUA_50_INCLUDE= /usr/local/include
-
-LUA_50_OUTPUT= bin/libprofiler.so
+LUA50_LIBS=\development\lua50\lib\vc6\lua50.lib 
 
 INCS= $(LUA_50_INCLUDE)
-CC= gcc
-WARN= -ansi -pedantic -W -Wall
+CC= cl
+WARN= -W1
 EXTRA_LIBS=
-CFLAGS= -O2 -DTESTS $(WARN) -I$(INCS) -I./src
+CFLAGS= -O2 -DTESTS $(WARN) -I$(INCS) -I.\src
+

@@ -1,7 +1,9 @@
-/*****************************************************************************
-Lua Profiler
-============
+/*
+** LuaProfiler 2.0. beta
+** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
+*/
 
+/*****************************************************************************
 clocks.c:
    Module to register the time (seconds) between two events
 

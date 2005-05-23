@@ -1,19 +1,15 @@
 include config
 
-COMMON_OBJS= src/clocks.o src/core_profiler.o src/function_meter.o src/stack.o src/compat-5.1.o
-LUANG_OBJS= src/cgilua32_profiler.o
-LUA32_OBJS= src/lua32_profiler.o
-LUA40_OBJS= src/lua40_profiler.o
-LUA50_OBJS= src/lua50_profiler.o
+COMMON_OBJS= src\clocks.obj src\core_profiler.obj src\function_meter.obj src\stack.obj src\compat-5.1.obj
+LUANG_OBJS= src\cgilua32_profiler.obj
+LUA32_OBJS= src\lua32_profiler.obj
+LUA40_OBJS= src\lua40_profiler.obj
+LUA50_OBJS= src\lua50_profiler.obj
 
 
 lua5: $(COMMON_OBJS) $(LUA50_OBJS)
-	$(LD) -Bshareable -o $(LUA_50_OUTPUT) $(COMMON_OBJS) $(LUA50_OBJS)
+	move *.obj src\ && link /dll /def:src\luaprofiler.def /out:$(LUA_50_OUTPUT) $(COMMON_OBJS) $(LUA50_OBJS) $(LUA50_LIBS)
 
 
 clean:
-	rm -f $(LUA_50_OUTPUT) src/*.o
-
-install:
-	install -m 0755 $(LUA_50_OUTPUT) /usr/local/lib/lua/5.0
-
+	rm -f $(LUA_50_OUTPUT) src\*.obj

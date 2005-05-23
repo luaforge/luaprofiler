@@ -1,3 +1,8 @@
+/*
+** LuaProfiler 2.0. beta
+** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
+*/
+
 /*****************************************************************************
 function_meter.c:
    Module to compute the times for functions (local times and total times)
