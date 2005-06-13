@@ -4,9 +4,9 @@
 #include "lauxlib.h"
 #include "compat-5.1.h"
 
-static void getfield(lua_State *L, const char *name) {
+static void getfield(lua_State *L, int idx, const char *name) {
     const char *end = strchr(name, '.');
-    lua_pushvalue(L, LUA_GLOBALSINDEX);
+    lua_pushvalue(L, idx);
     while (end) {
         lua_pushlstring(L, name, end - name);
         lua_gettable(L, -2);
@@ -20,9 +20,9 @@ static void getfield(lua_State *L, const char *name) {
     lua_remove(L, -2);
 }
 
-static void setfield(lua_State *L, const char *name) {
+static void setfield(lua_State *L, int idx, const char *name) {
     const char *end = strchr(name, '.');
-    lua_pushvalue(L, LUA_GLOBALSINDEX);
+    lua_pushvalue(L, idx);
     while (end) {
         lua_pushlstring(L, name, end - name);
         lua_gettable(L, -2);
@@ -47,16 +47,23 @@ static void setfield(lua_State *L, const char *name) {
 LUALIB_API void luaL_module(lua_State *L, const char *libname,
                               const luaL_reg *l, int nup) {
   if (libname) {
-    getfield(L, libname);  /* check whether lib already exists */
+    getfield(L, LUA_GLOBALSINDEX, libname);  /* check whether lib already exists */
     if (lua_isnil(L, -1)) { 
+      int env;
       lua_pop(L, 1); /* get rid of nil */
+      lua_pushvalue(L, LUA_GLOBALSINDEX);
+      lua_pushliteral(L, "require");
+      lua_gettable(L, -2); /* look for require */
+      lua_getfenv(L, -1); /* getfenv(require) */
+      env = lua_gettop(L);
+
       lua_newtable(L); /* create namespace for lib */
-      getfield(L, "package.loaded"); /* get package.loaded table or create it */
+      getfield(L, env, "package.loaded"); /* get package.loaded table or create it */
       if (lua_isnil(L, -1)) {
           lua_pop(L, 1);
           lua_newtable(L);
           lua_pushvalue(L, -1);
-          setfield(L, "package.loaded");
+          setfield(L, env, "package.loaded");
       }
       else if (!lua_istable(L, -1))
         luaL_error(L, "name conflict for library `%s'", libname);
@@ -65,7 +72,7 @@ LUALIB_API void luaL_module(lua_State *L, const char *libname,
       lua_settable(L, -3); /* store namespace in package.loaded table */
       lua_pop(L, 1); /* get rid of package.loaded table */
       lua_pushvalue(L, -1);
-      setfield(L, libname);  /* store namespace it in globals table */
+      setfield(L, LUA_GLOBALSINDEX, libname);  /* store namespace it in globals table */
     }
     lua_insert(L, -(nup+1));  /* move library table to below upvalues */
   }
