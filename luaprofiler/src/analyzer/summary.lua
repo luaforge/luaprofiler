@@ -1,5 +1,6 @@
--- Sample LUA program
--- Author: MAO - May 10th, 2003
+-- LuaProfiler 2.0
+-- Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
+-- $Id: summary.lua,v 1.3 2005-06-13 19:34:58 mascarenhas Exp $
 
 -- Function that reads one profile file
 function ReadProfile(file)

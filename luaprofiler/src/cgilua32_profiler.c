@@ -1,6 +1,7 @@
 /*
-** LuaProfiler 2.0. beta
+** LuaProfiler 2.0
 ** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
+** $Id: cgilua32_profiler.c,v 1.3 2005-06-13 19:34:58 mascarenhas Exp $
 */
 
 /*****************************************************************************

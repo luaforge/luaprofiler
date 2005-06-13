@@ -1,6 +1,7 @@
 /*
-** LuaProfiler 2.0. beta
+** LuaProfiler 2.0
 ** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
+** $Id: lua50_profiler.c,v 1.9 2005-06-13 19:34:58 mascarenhas Exp $
 */
 
 /*****************************************************************************
@@ -203,5 +204,14 @@ static const luaL_reg prof_funcs[] = {
 
 int luaopen_profiler(lua_State *L) {
 	luaL_openlib(L, "profiler", prof_funcs, 0);
+	lua_pushliteral (L, "_COPYRIGHT");
+	lua_pushliteral (L, "Copyright (C) 2003-2005 Kepler Project");
+	lua_settable (L, -3);
+	lua_pushliteral (L, "_NAME");
+	lua_pushliteral (L, "LuaProfiler");
+	lua_settable (L, -3);
+	lua_pushliteral (L, "_VERSION");
+	lua_pushliteral (L, "2.0");
+	lua_settable (L, -3);
 	return 1;
 }
