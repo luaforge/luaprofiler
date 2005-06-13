@@ -1,7 +1,7 @@
 /*
 ** LuaProfiler 2.0
 ** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
-** $Id: lua50_profiler.c,v 1.9 2005-06-13 19:34:58 mascarenhas Exp $
+** $Id: lua50_profiler.c,v 1.10 2005-06-13 20:05:38 mascarenhas Exp $
 */
 
 /*****************************************************************************
@@ -206,6 +206,9 @@ int luaopen_profiler(lua_State *L) {
 	luaL_openlib(L, "profiler", prof_funcs, 0);
 	lua_pushliteral (L, "_COPYRIGHT");
 	lua_pushliteral (L, "Copyright (C) 2003-2005 Kepler Project");
+	lua_settable (L, -3);
+	lua_pushliteral (L, "_DESCRIPTION");
+	lua_pushliteral (L, "LuaProfiler is a time profiler designed to help finding bottlenecks on your Lua program.");
 	lua_settable (L, -3);
 	lua_pushliteral (L, "_NAME");
 	lua_pushliteral (L, "LuaProfiler");

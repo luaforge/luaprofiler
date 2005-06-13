@@ -6,10 +6,12 @@ LUA_50_INCLUDE= /Users/fabio/Desktop/lua-5.0.2/include
 
 LUA_50_OUTPUT= bin/libprofiler.so
 
+COMPAT_DIR = ../compat/src
+
 LUA50_LIBS=\development\kepler-bin\bin\lua50.lib \development\kepler-bin\bin\liblua50.lib
 
-INCS= $(LUA_50_INCLUDE)
+INCS= -I$(LUA_50_INCLUDE) -I$(COMPAT_DIR)
 CC= gcc
 WARN= -ansi -pedantic -W -Wall
 EXTRA_LIBS=
-CFLAGS= -O2 -DTESTS $(WARN) -I$(INCS) -I./src
+CFLAGS= -O2 -DTESTS $(WARN) $(INCS) -I./src
