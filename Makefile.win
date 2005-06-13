@@ -8,8 +8,10 @@ LUA50_OBJS= src\lua50_profiler.obj
 
 
 lua5: $(COMMON_OBJS) $(LUA50_OBJS)
-	move *.obj src\ && link /dll /def:src\luaprofiler.def /out:$(LUA_50_OUTPUT) $(COMMON_OBJS) $(LUA50_OBJS) $(LUA50_LIBS)
+	move *.obj src
+	link /dll /def:src\luaprofiler.def /out:$(LUA_50_OUTPUT) $(COMMON_OBJS) $(LUA50_OBJS) $(LUA50_LIBS)
 
 
 clean:
-	rm -f $(LUA_50_OUTPUT) src\*.obj
+	del $(LUA_50_OUTPUT)
+	del src\*.obj
