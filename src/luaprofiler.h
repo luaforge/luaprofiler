@@ -1,7 +1,12 @@
+/*
+** LuaProfiler 2.0
+** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
+** $Id: luaprofiler.h,v 1.3 2005-06-13 20:05:38 mascarenhas Exp $
+*/
+
 /*****************************************************************************
-luaProfiler.h:
+luaprofiler.h:
     Must be included by your main module, in order to profile Lua programs
-** $Id: luaprofiler.h,v 1.2 2005-06-13 19:34:58 mascarenhas Exp $
 *****************************************************************************/
 
 

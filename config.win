@@ -6,9 +6,11 @@ LUA_50_OUTPUT= bin\profiler.dll
 
 LUA50_LIBS=\development\lua50\lib\vc6\lua50.lib 
 
-INCS= $(LUA_50_INCLUDE)
+COMPAT_DIR=\temp\compat\src
+
+INCS= -I$(LUA_50_INCLUDE) -I$(COMPAT_DIR)
 CC= cl
 WARN= -W1
 EXTRA_LIBS=
-CFLAGS= -O2 -DTESTS $(WARN) -I$(INCS) -I.\src
+CFLAGS= -O2 -DTESTS $(WARN) $(INCS) -I.\src
 

@@ -8,6 +8,7 @@ LUA50_OBJS= src\lua50_profiler.obj
 
 
 lua5: $(COMMON_OBJS) $(LUA50_OBJS)
+	copy $(COMPAT_DIR)\compat-5.1.c src
 	move *.obj src
 	mkdir bin
 	link /dll /def:src\luaprofiler.def /out:$(LUA_50_OUTPUT) $(COMMON_OBJS) $(LUA50_OBJS) $(LUA50_LIBS)
