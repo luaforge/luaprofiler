@@ -1,17 +1,10 @@
 
-LUA_NG_INCLUDE= /usr/local/include
-LUA_32_INCLUDE= /usr/local/include
-LUA_40_INCLUDE= /usr/local/include
-LUA_50_INCLUDE= /Users/fabio/Desktop/lua-5.0.2/include
+LUA_INCLUDE= /usr/local/include/lua51
 
-LUA_50_OUTPUT= bin/libprofiler.so
+PROFILER_OUTPUT= bin/profiler.so
 
-COMPAT_DIR = ../compat/src
-
-LUA50_LIBS=\development\kepler-bin\bin\lua50.lib \development\kepler-bin\bin\liblua50.lib
-
-INCS= -I$(LUA_50_INCLUDE) -I$(COMPAT_DIR)
+INCS= -I$(LUA_INCLUDE)
 CC= gcc
-WARN= -ansi -pedantic -W -Wall
+WARN= -ansi -W -Wall
 EXTRA_LIBS=
 CFLAGS= -O2 -DTESTS $(WARN) $(INCS) -I./src

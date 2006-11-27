@@ -1,7 +1,7 @@
 /*
 ** LuaProfiler 2.0
 ** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
-** $Id: lua50_profiler.c,v 1.10 2005-06-13 20:05:38 mascarenhas Exp $
+** $Id: lua50_profiler.c,v 1.11 2006-11-27 18:32:11 mascarenhas Exp $
 */
 
 /*****************************************************************************
@@ -19,10 +19,12 @@ lua50_profiler.c:
 
 #include "lua.h"
 #include "lauxlib.h"
-#include "compat-5.1.h"
 
 /* Indices for the main profiler stack and for the original exit function */
 static int exit_id;
+
+/* Forward declaration */
+static float calcCallTime(lua_State *L);
 
 /* called by Lua (via the callhook mechanism) */
 static void callhook(lua_State *L, lua_Debug *ar) {
@@ -44,7 +46,7 @@ static void callhook(lua_State *L, lua_Debug *ar) {
 
    if (!ar->event) {
    	/* entering a function */
-		lprofP_callhookIN(S, (char *)ar->source, (char *)ar->name,
+		lprofP_callhookIN(S, (char *)ar->name,
 		                  (char *)ar->source, ar->linedefined,
 		                  currentline);
 	}
@@ -73,6 +75,7 @@ static void exit_profiler(lua_State *L) {
 
 /* Our new coroutine.create function  */
 /* Creates a new profile state for the coroutine */
+#if 0 
 static int coroutine_create(lua_State *L) {
   lprofP_STATE* S;
   lua_State *NL = lua_newthread(L);
@@ -88,6 +91,7 @@ static int coroutine_create(lua_State *L) {
   lua_sethook(NL, (lua_Hook)callhook, LUA_MASKCALL | LUA_MASKRET, 0);
   return 1;	
 }
+#endif
 
 static int profiler_pause(lua_State *L) {
   lprofP_STATE* S;
@@ -150,7 +154,7 @@ static int profiler_init(lua_State *L) {
     /* supposed to be by the time the profiler is activated when loaded  */
     /* as a library.                                                     */
 
-	lprofP_callhookIN(S, "", "profiler_init", "(C)", -1, -1);
+	lprofP_callhookIN(S, "profiler_init", "(C)", -1, -1);
 	
 	lua_pushboolean(L, 1);
 	return 1;
@@ -190,7 +194,7 @@ char lua_code[] = "                                     \
                  ";
 
    lprofC_start_timer(&timer);
-   lua_dostring(L, lua_code);
+   luaL_dostring(L, lua_code);
    return lprofC_get_seconds(timer) / (float) 100000;
 }
 

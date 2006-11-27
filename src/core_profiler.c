@@ -1,7 +1,7 @@
 /*
 ** LuaProfiler 2.0
 ** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
-** $Id: core_profiler.c,v 1.6 2005-06-13 19:34:58 mascarenhas Exp $
+** $Id: core_profiler.c,v 1.7 2006-11-27 18:32:11 mascarenhas Exp $
 */
 
 /*****************************************************************************
@@ -79,7 +79,7 @@ int i;
 
 
 /* computes new stack and new timer */
-void lprofP_callhookIN(lprofP_STATE* S, char *source, char *func_name, char *file, int linedefined, int currentline) {	
+void lprofP_callhookIN(lprofP_STATE* S, char *func_name, char *file, int linedefined, int currentline) {	
    S->stack_level++;
    lprofM_enter_function(S, file, func_name, linedefined, currentline);
 }
@@ -119,12 +119,12 @@ int lprofP_callhookOUT(lprofP_STATE* S) {
 
 /* opens the log file */
 /* returns true if the file could be opened */
-lprofP_STATE* lprofP_init_core_profiler(char *_out_filename, int isto_printheader, float _function_call_time) {
+lprofP_STATE* lprofP_init_core_profiler(const char *_out_filename, int isto_printheader, float _function_call_time) {
    lprofP_STATE* S;
    char auxs[256];
    char *s;
    char *randstr;
-   char *out_filename;
+   const char *out_filename;
 
    function_call_time = _function_call_time;
    out_filename = (_out_filename) ? (_out_filename):(OUT_FILENAME);
@@ -173,5 +173,3 @@ lprofP_STATE* lprofP_create_profiler(float _function_call_time) {
    return S;
 }
 
-void lprofP_begin_profiling(lprofP_STATE* S, char *_out_filename, int isto_printheader) {
-}

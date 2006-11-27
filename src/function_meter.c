@@ -1,7 +1,7 @@
 /*
 ** LuaProfiler 2.0
 ** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
-** $Id: function_meter.c,v 1.6 2005-06-13 19:34:58 mascarenhas Exp $
+** $Id: function_meter.c,v 1.7 2006-11-27 18:32:11 mascarenhas Exp $
 */
 
 /*****************************************************************************
@@ -158,7 +158,7 @@ void lprofM_enter_function(lprofP_STATE* S, char *file_defined, char *fcn_name, 
 	  newf.function_name = cur_name;
    } else {
 	  cur_name = (char*)malloc(sizeof(char)*(strlen(file_defined)+12));
-	  sprintf(cur_name, "%s:%i", file_defined, linedefined);
+	  sprintf(cur_name, "%s:%li", file_defined, linedefined);
 	  newf.function_name = cur_name;
    }	   
    newf.line_defined = linedefined;
