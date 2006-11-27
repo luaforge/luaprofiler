@@ -1,19 +1,14 @@
-include config
+include config.linux
 
-COMMON_OBJS= src/clocks.o src/core_profiler.o src/function_meter.o src/stack.o $(COMPAT_DIR)/compat-5.1.o
-LUANG_OBJS= src/cgilua32_profiler.o
-LUA32_OBJS= src/lua32_profiler.o
-LUA40_OBJS= src/lua40_profiler.o
-LUA50_OBJS= src/lua50_profiler.o
+OBJS= src/clocks.o src/core_profiler.o src/function_meter.o src/stack.o src/lua50_profiler.o
 
 
-lua5: $(COMMON_OBJS) $(LUA50_OBJS)
-	mkdir bin && $(LD) -Bshareable -o $(LUA_50_OUTPUT) $(COMMON_OBJS) $(LUA50_OBJS)
-
+profiler: $(OBJS)
+	mkdir -p bin && $(LD) -Bshareable -o $(PROFILER_OUTPUT) $(OBJS)
 
 clean:
-	rm -f $(LUA_50_OUTPUT) src/*.o
+	rm -f $(PROFILER_OUTPUT) src/*.o
 
 install:
-	install -m 0755 $(LUA_50_OUTPUT) /usr/local/lib/lua/5.0
+	install -m 0755 $(PROFILER_OUTPUT) /usr/local/lib/lua/5.1
 
