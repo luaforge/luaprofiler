@@ -1,7 +1,7 @@
 /*
-** LuaProfiler 2.0
-** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
-** $Id: lua50_profiler.c,v 1.11 2006-11-27 18:32:11 mascarenhas Exp $
+** LuaProfiler
+** Copyright Kepler Project 2005-2007 (http://www.keplerproject.org/luaprofiler)
+** $Id: lua50_profiler.c,v 1.12 2007-08-22 19:23:53 carregal Exp $
 */
 
 /*****************************************************************************
@@ -209,16 +209,16 @@ static const luaL_reg prof_funcs[] = {
 int luaopen_profiler(lua_State *L) {
 	luaL_openlib(L, "profiler", prof_funcs, 0);
 	lua_pushliteral (L, "_COPYRIGHT");
-	lua_pushliteral (L, "Copyright (C) 2003-2005 Kepler Project");
+	lua_pushliteral (L, "Copyright (C) 2003-2007 Kepler Project");
 	lua_settable (L, -3);
 	lua_pushliteral (L, "_DESCRIPTION");
-	lua_pushliteral (L, "LuaProfiler is a time profiler designed to help finding bottlenecks on your Lua program.");
+	lua_pushliteral (L, "LuaProfiler is a time profiler designed to help finding bottlenecks in your Lua program.");
 	lua_settable (L, -3);
 	lua_pushliteral (L, "_NAME");
 	lua_pushliteral (L, "LuaProfiler");
 	lua_settable (L, -3);
 	lua_pushliteral (L, "_VERSION");
-	lua_pushliteral (L, "2.0");
+	lua_pushliteral (L, "2.0.1");
 	lua_settable (L, -3);
 	return 1;
 }

@@ -1,7 +1,7 @@
 /*
-** LuaProfiler 2.0
-** Copyright Kepler Project 2005 (http://www.keplerproject.org/luaprofiler)
-** $Id: luaprofiler.h,v 1.3 2005-06-13 20:05:38 mascarenhas Exp $
+** LuaProfiler
+** Copyright Kepler Project 2005-2007 (http://www.keplerproject.org/luaprofiler)
+** $Id: luaprofiler.h,v 1.4 2007-08-22 19:23:53 carregal Exp $
 */
 
 /*****************************************************************************
