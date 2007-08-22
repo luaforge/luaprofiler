@@ -1,11 +1,17 @@
-LUA_INCLUDE= \development\lua51\include
-PROFILER_OUTPUT= bin\profiler.dll
+# Installation directories
+# System's libraries directory (where binary libraries are installed)
+LUA_LIBDIR= c:\lua5.1
+# Lua includes directory
+LUA_INC= c:\lua5.1\include
+# Lua library
+LUA_LIB= c:\lua5.1\lua5.1.lib
 
-LUA_LIB=\development\lua51\lib\vc6\lua51.lib 
+LIBNAME= $T.dll
 
-INCS= -I$(LUA_INCLUDE)
+# Compilation directives
+WARN= /O2
+INCS= /I$(LUA_INC)
+CFLAGS= $(WARN) $(INCS)
 CC= cl
-WARN= -W1
-EXTRA_LIBS=
-CFLAGS= -O2 -DTESTS $(WARN) $(INCS) -I.\src
 
+# $Id: config.win,v 1.8 2007-08-22 17:45:56 carregal Exp $
