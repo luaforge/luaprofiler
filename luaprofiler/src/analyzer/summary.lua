@@ -1,6 +1,6 @@
 -- LuaProfiler
 -- Copyright Kepler Project 2005-2007 (http://www.keplerproject.org/luaprofiler)
--- $Id: summary.lua,v 1.4 2007-08-22 19:23:53 carregal Exp $
+-- $Id: summary.lua,v 1.5 2007-08-22 21:05:13 carregal Exp $
 
 -- Function that reads one profile file
 function ReadProfile(file)
@@ -24,7 +24,7 @@ function ReadProfile(file)
 	for line in profile:lines() do
 		line_buffer[i] = line
 		i = i + 1
-		end
+    end
 
 	-- Close file
 	profile:close()
@@ -38,10 +38,10 @@ function CreateSummary(lines, summary)
 
 	-- Note: ignore first line
 	for i = 2, table.getn(lines) do
-		_, _, word = string.find(lines[i], "[^\t]+\t[^\t]+\t([^\t]+)")
-		_, _, local_time, total_time = string.find(lines[i], "[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)")
-
-		if summary[word] == nil then
+		word = string.match(lines[i], "[^\t]+\t[^\t]+\t([^\t]+)")
+		local_time, total_time = string.match(lines[i], "[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)")
+        if not (local_time and total_time) then return global_time end
+        if summary[word] == nil then
 			summary[word] = {};
 			summary[word]["info"] = {}
 			summary[word]["info"]["calls"] = 1
