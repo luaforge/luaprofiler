@@ -10,15 +10,14 @@ import the log into a spreadsheet for further analysis.
 
 LuaProfiler is free software and uses the same license as Lua 5.1.
 
-Current version is 2.0.1 It was developed for Lua 5.1, 5.0, 4.0.1 and 3.2.
+Current version is 2.0.2. It was developed for Lua 5.1.
 
-LuaProfiler can be downloaded from the LuaForge page.
+LuaProfiler can be downloaded from the LuaForge page, or from LuaRocks ("luarocks install
+luaprofiler").
 
 Installation
 
 LuaProfiler source is distributed as a group of C files and some makefile templates.
-For older versions of Lua (3.2 and 4.0), LuaProfiler must be embedded in your application
-(linked with it). You must call the function init_profiler() to start profiling from C code.
 
 LuaProfiler follows the package model for Lua 5.1, therefore it should be "installed" in your package.path.
 
