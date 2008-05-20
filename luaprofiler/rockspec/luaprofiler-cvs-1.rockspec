@@ -25,5 +25,8 @@ build = {
       profiler = {
          sources = { "src/clocks.c", "src/core_profiler.c", "src/function_meter.c", "src/stack.c", "src/lua50_profiler.c" }
       }
+   },
+   install = {
+    bin = { summary = "src/analyzer/summary.lua" }
    }
 }
