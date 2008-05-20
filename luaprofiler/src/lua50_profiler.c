@@ -1,7 +1,7 @@
 /*
 ** LuaProfiler
 ** Copyright Kepler Project 2005-2007 (http://www.keplerproject.org/luaprofiler)
-** $Id: lua50_profiler.c,v 1.15 2008-05-20 19:52:55 mascarenhas Exp $
+** $Id: lua50_profiler.c,v 1.16 2008-05-20 21:16:36 mascarenhas Exp $
 */
 
 /*****************************************************************************
@@ -128,14 +128,12 @@ static int profiler_init(lua_State *L) {
   function_call_time = calcCallTime(L);
 
   outfile = NULL;
-  if(lua_gettop(L) == 1)
-    outfile = luaL_checkstring(L, -1);
+  if(lua_gettop(L) >= 1)
+    outfile = luaL_checkstring(L, 1);
 
   /* init with default file name and printing a header line */
   if (!(S=lprofP_init_core_profiler(outfile, 1, function_call_time))) {
-    luaL_error(L,"LuaProfiler error: output file could not be opened!");
-    lua_pushnil(L);
-    return 1;
+    return luaL_error(L,"LuaProfiler error: output file could not be opened!");
   }
 
   lua_sethook(L, (lua_Hook)callhook, LUA_MASKCALL | LUA_MASKRET, 0);
