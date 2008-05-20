@@ -1,7 +1,7 @@
 /*
 ** LuaProfiler
 ** Copyright Kepler Project 2005-2007 (http://www.keplerproject.org/luaprofiler)
-** $Id: lua50_profiler.c,v 1.13 2008-05-19 18:36:23 mascarenhas Exp $
+** $Id: lua50_profiler.c,v 1.14 2008-05-20 13:18:41 mascarenhas Exp $
 */
 
 /*****************************************************************************
@@ -26,6 +26,7 @@ static int profstate_id;
 
 /* Forward declaration */
 static float calcCallTime(lua_State *L);
+static int profiler_stop(lua_State *L);
 
 /* called by Lua (via the callhook mechanism) */
 static void callhook(lua_State *L, lua_Debug *ar) {
@@ -117,6 +118,13 @@ static int profiler_init(lua_State *L) {
   const char* outfile;
   float function_call_time;
 
+  lua_pushlightuserdata(L, &profstate_id);
+  lua_gettable(L, LUA_REGISTRYINDEX);
+  if(!lua_isnil(L, -1)) {
+    profiler_stop(L);
+  }
+  lua_pop(L, 1);
+
   function_call_time = calcCallTime(L);
 
   outfile = NULL;
@@ -173,6 +181,9 @@ static int profiler_stop(lua_State *L) {
     /* leave all functions under execution */
     while (lprofP_callhookOUT(S));
     lprofP_close_core_profiler(S);
+    lua_pushlightuserdata(L, &profstate_id);
+    lua_pushnil(L);
+    lua_settable(L, LUA_REGISTRYINDEX);
     lua_pushboolean(L, 1);
   } else { lua_pushboolean(L, 0); }
   return 1;
