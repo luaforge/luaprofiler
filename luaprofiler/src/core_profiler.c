@@ -1,7 +1,7 @@
 /*
 ** LuaProfiler
 ** Copyright Kepler Project 2005.2007 (http://www.keplerproject.org/luaprofiler)
-** $Id: core_profiler.c,v 1.9 2008-05-19 18:36:23 mascarenhas Exp $
+** $Id: core_profiler.c,v 1.10 2009-01-29 12:39:28 jasonsantos Exp $
 */
 
 /*****************************************************************************
@@ -45,6 +45,8 @@ a depth-first search recursive algorithm).
 
     /* default log name (%s is used to place a random string) */
 #define OUT_FILENAME "lprof_%s.out"
+
+#define MAX_FUNCTION_NAME_LENGTH 20
 
     /* for faster execution (??) */
 static FILE *outf;
@@ -101,10 +103,25 @@ int lprofP_callhookOUT(lprofP_STATE* S) {
   lprofM_pause_total_time(S);
   info->local_time += function_call_time;
   info->total_time += function_call_time;
-  formats(info->file_defined);
-  formats(info->function_name);
-  output("%d\t%s\t%s\t%d\t%d\t%f\t%f\n", S->stack_level, info->file_defined,
-	 info->function_name, 
+  
+  char* source = info->file_defined;
+  if (source[0] != '@') {
+     source = "(string)";
+  }
+  else {
+     formats(source);
+  }
+  char* name = info->function_name;
+  
+  if (strlen(name) > MAX_FUNCTION_NAME_LENGTH) {
+     name = malloc(MAX_FUNCTION_NAME_LENGTH+10);
+     name[0] = '\"';
+     strncpy(name+1, info->function_name, MAX_FUNCTION_NAME_LENGTH);
+     name[MAX_FUNCTION_NAME_LENGTH] = '"';
+     name[MAX_FUNCTION_NAME_LENGTH+1] = '\0';
+  }
+  formats(name);
+  output("%d\t%s\t%s\t%d\t%d\t%f\t%f\n", S->stack_level, source, name, 
 	 info->line_defined, info->current_line,
 	 info->local_time, info->total_time);
   /* ... now it's ok to resume the timer */
