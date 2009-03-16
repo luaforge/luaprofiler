@@ -1,6 +1,6 @@
 -- LuaProfiler
 -- Copyright Kepler Project 2005-2007 (http://www.keplerproject.org/luaprofiler)
--- $Id: summary.lua,v 1.5 2007-08-22 21:05:13 carregal Exp $
+-- $Id: summary.lua,v 1.6 2009-03-16 15:55:32 alessandrohc Exp $
 
 -- Function that reads one profile file
 function ReadProfile(file)
@@ -10,11 +10,10 @@ function ReadProfile(file)
 	-- Check if argument is a file handle or a filename
 	if io.type(file) == "file" then
 		profile = file
-
 	else
 		-- Open profile
 		profile = io.open(file)
-		end
+	end
 
 	-- Table for storing each profile's set of lines
 	line_buffer = {}
@@ -29,7 +28,7 @@ function ReadProfile(file)
 	-- Close file
 	profile:close()
 	return line_buffer
-	end
+end
 
 -- Function that creates the summary info
 function CreateSummary(lines, summary)
@@ -38,8 +37,11 @@ function CreateSummary(lines, summary)
 
 	-- Note: ignore first line
 	for i = 2, table.getn(lines) do
-		word = string.match(lines[i], "[^\t]+\t[^\t]+\t([^\t]+)")
-		local_time, total_time = string.match(lines[i], "[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)")
+		local word = string.match(lines[i], "[^\t]+\t[^\t]+\t([^\t]+)")
+		local local_time, total_time = string.match(lines[i], "[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t[^\t]+\t([^\t]+)\t([^\t]+)")
+        local_time = string.gsub(local_time, ",", ".")
+        total_time = string.gsub(total_time, ",", ".")
+        
         if not (local_time and total_time) then return global_time end
         if summary[word] == nil then
 			summary[word] = {};
@@ -47,17 +49,16 @@ function CreateSummary(lines, summary)
 			summary[word]["info"]["calls"] = 1
 			summary[word]["info"]["total"] = local_time
 			summary[word]["info"]["func"] = word
-
 		else
 			summary[word]["info"]["calls"] = summary[word]["info"]["calls"] + 1
 			summary[word]["info"]["total"] = summary[word]["info"]["total"] + local_time;
-			end
-
-		global_time = global_time + local_time;
 		end
 
-	return global_time
+		global_time = global_time + local_time;
 	end
+
+	return global_time
+end
 
 -- Global time
 global_t = 0
@@ -111,10 +112,10 @@ else
 
 		-- Build a table with profile info
 		global_t = global_t + CreateSummary(profile_lines, profile_info)
-		end
+	end
 
 	file:close()
-	end
+end
 
 -- Sort table by total time
 sorted = {}
@@ -137,5 +138,4 @@ for k, v in pairs(sorted) do
 		  print(v["info"]["func"] .. "\t" .. v["info"]["total"])
 		end
 	end
-	end
-
+end
