@@ -43,6 +43,7 @@ function CreateSummary(lines, summary)
         total_time = string.gsub(total_time, ",", ".")
         
         if not (local_time and total_time) then return global_time end
+        if tonumber(local_time) == nil then return global_time end
         if summary[word] == nil then
 			summary[word] = {};
 			summary[word]["info"] = {}
