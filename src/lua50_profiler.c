@@ -214,7 +214,7 @@ static float calcCallTime(lua_State *L) {
   return lprofC_get_seconds(timer) / (float) 100000;
 }
 
-static const luaL_reg prof_funcs[] = {
+static const luaL_Reg prof_funcs[] = {
   { "pause", profiler_pause },
   { "resume", profiler_resume },
   { "start", profiler_init },
@@ -223,7 +223,7 @@ static const luaL_reg prof_funcs[] = {
 };
 
 int luaopen_profiler(lua_State *L) {
-  luaL_openlib(L, "profiler", prof_funcs, 0);
+  luaL_newlib(L, prof_funcs);
   lua_pushliteral (L, "_COPYRIGHT");
   lua_pushliteral (L, "Copyright (C) 2003-2007 Kepler Project");
   lua_settable (L, -3);

@@ -1,7 +1,7 @@
 # $Id: Makefile.win,v 1.8 2007-08-22 17:45:56 carregal Exp $
 
 T= profiler
-V= 2.0.1
+V= 2.1.0
 
 include config.win
 

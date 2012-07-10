@@ -10,5 +10,5 @@ clean:
 	rm -f $(PROFILER_OUTPUT) src/*.o
 
 install:
-	install -m 0755 $(PROFILER_OUTPUT) /usr/local/lib/lua/5.1
+	install -m 0755 $(PROFILER_OUTPUT) /usr/local/lib/lua/5.2
 
