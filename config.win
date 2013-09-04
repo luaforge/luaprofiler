@@ -1,10 +1,10 @@
 # Installation directories
 # System's libraries directory (where binary libraries are installed)
-LUA_LIBDIR= c:\lua5.1
+LUA_LIBDIR= c:\lua5.2
 # Lua includes directory
-LUA_INC= c:\lua5.1\include
+LUA_INC= c:\lua5.2\include
 # Lua library
-LUA_LIB= c:\lua5.1\lua5.1.lib
+LUA_LIB= c:\lua5.2\lua5.2.lib
 
 LIBNAME= $T.dll
 
