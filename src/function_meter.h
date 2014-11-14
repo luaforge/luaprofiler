@@ -25,6 +25,14 @@ Design:
                               another one or when the function terminates
 *****************************************************************************/
 
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+
+
+
 #include "stack.h"
 
 
@@ -62,3 +70,7 @@ lprofS_STACK_RECORD *lprofM_leave_function(lprofP_STATE* S, int isto_resume);
 
 /* init stack */
 lprofP_STATE* lprofM_init();
+    
+#ifdef __cplusplus
+}
+#endif

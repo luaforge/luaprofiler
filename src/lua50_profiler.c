@@ -9,6 +9,7 @@ lua50_profiler.c:
    Lua version dependent profiler interface
 *****************************************************************************/
 
+#include "lua50_profiler.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -19,6 +20,12 @@ lua50_profiler.c:
 
 #include "lua.h"
 #include "lauxlib.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+
 
 /* Indices for the main profiler stack and for the original exit function */
 static int exit_id;
@@ -36,6 +43,7 @@ static void callhook(lua_State *L, lua_Debug *ar) {
   lua_pushlightuserdata(L, &profstate_id);
   lua_gettable(L, LUA_REGISTRYINDEX);
   S = (lprofP_STATE*)lua_touserdata(L, -1);
+  lua_pop(L, 1);
 
   if (lua_getstack(L, 1, &previous_ar) == 0) {
     currentline = -1;
@@ -238,3 +246,6 @@ int luaopen_profiler(lua_State *L) {
   lua_settable (L, -3);
   return 1;
 }
+#ifdef __cplusplus
+}
+#endif

@@ -25,6 +25,11 @@ Design:
                               another one or when the function terminates
 *****************************************************************************/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -201,3 +206,8 @@ lprofP_STATE* lprofM_init() {
     return S;
   } else return NULL;
 }
+    
+    
+#ifdef __cplusplus
+}
+#endif

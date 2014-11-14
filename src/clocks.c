@@ -14,6 +14,11 @@ Design:
                           was started
 *****************************************************************************/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+
 #include <stdio.h>
 #include "clocks.h"
 
@@ -61,3 +66,6 @@ clock_t clocks;
         return (float)clocks / (float)CLOCKS_PER_SEC;
 }
 
+#ifdef __cplusplus
+}
+#endif

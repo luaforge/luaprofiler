@@ -34,6 +34,11 @@ the vertex is "printed" only after all his descendents have been processed (in
 a depth-first search recursive algorithm).
 *****************************************************************************/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -97,10 +102,18 @@ int lprofP_callhookOUT(lprofP_STATE* S) {
 
   S->stack_level--;
 
-  /* 0: do not resume the parent function's timer yet... */
-  info = lprofM_leave_function(S, 0);
+  //Jennal move up
+    /* original code is
+     // 0: do not resume the parent function's timer yet...
+     info = lprofM_leave_function(S, 0);
+     // writing a log may take too long to be computed with the function's time ...
+     lprofM_pause_total_time(S);
+    */
   /* writing a log may take too long to be computed with the function's time ...*/
   lprofM_pause_total_time(S);
+  /* 0: do not resume the parent function's timer yet... */
+  info = lprofM_leave_function(S, 0);
+
   info->local_time += function_call_time;
   info->total_time += function_call_time;
   
@@ -195,3 +208,6 @@ lprofP_STATE* lprofP_create_profiler(float _function_call_time) {
   return S;
 }
 
+#ifdef __cplusplus
+}
+#endif

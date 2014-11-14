@@ -9,6 +9,13 @@ stack.c:
    Simple stack manipulation
 *****************************************************************************/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+
+    
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "stack.h"
@@ -31,3 +38,6 @@ lprofS_STACK q;
         free(q);
         return r;
 }
+#ifdef __cplusplus
+}
+#endif
