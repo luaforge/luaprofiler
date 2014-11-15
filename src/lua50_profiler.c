@@ -18,7 +18,6 @@ lua50_profiler.c:
 #include "core_profiler.h"
 #include "function_meter.h"
 
-#include "lua.h"
 #include "lauxlib.h"
 
 #ifdef __cplusplus

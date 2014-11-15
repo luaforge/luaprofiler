@@ -1,7 +1,6 @@
 include config.linux
 
-OBJS= src/clocks.o src/core_profiler.o src/function_meter.o src/stack.o src/lua50_profiler.o
-
+OBJS= src/clocks.o src/cache.o src/core_profiler.o src/function_meter.o src/stack.o src/lua50_profiler.o
 
 profiler: $(OBJS)
 	mkdir -p bin && $(LD) -Bshareable -o $(PROFILER_OUTPUT) $(OBJS)
