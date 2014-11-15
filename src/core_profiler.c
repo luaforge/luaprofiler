@@ -34,14 +34,19 @@ the vertex is "printed" only after all his descendents have been processed (in
 a depth-first search recursive algorithm).
 *****************************************************************************/
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
 
 #include "function_meter.h"
-
 #include "core_profiler.h"
+#include "cache.h" /* Jennal added */
 
     /* default log name (%s is used to place a random string) */
 #define OUT_FILENAME "lprof_%s.out"
@@ -57,13 +62,19 @@ static float function_call_time;
 /* output a line to the log file, using 'printf()' syntax */
 /* assume the timer is off */
 static void output(const char *format, ...) {
+  /* Jennal modified */
+  // va_list ap;
+  // va_start(ap, format);
+  // vfprintf(outf, format, ap);
+  // va_end(ap);
+
+  // /* write now to avoid delays when the timer is on */
+  // fflush(outf);
+
   va_list ap;
   va_start(ap, format);
-  vfprintf(outf, format, ap);
+  lprofCache_vappend(outf, format, ap);
   va_end(ap);
-
-  /* write now to avoid delays when the timer is on */
-  fflush(outf);
 }
 
 
@@ -97,10 +108,18 @@ int lprofP_callhookOUT(lprofP_STATE* S) {
 
   S->stack_level--;
 
-  /* 0: do not resume the parent function's timer yet... */
-  info = lprofM_leave_function(S, 0);
+  //Jennal move up
+    /* original code is
+     // 0: do not resume the parent function's timer yet...
+     info = lprofM_leave_function(S, 0);
+     // writing a log may take too long to be computed with the function's time ...
+     lprofM_pause_total_time(S);
+    */
   /* writing a log may take too long to be computed with the function's time ...*/
   lprofM_pause_total_time(S);
+  /* 0: do not resume the parent function's timer yet... */
+  info = lprofM_leave_function(S, 0);
+
   info->local_time += function_call_time;
   info->total_time += function_call_time;
   
@@ -169,6 +188,7 @@ lprofP_STATE* lprofP_init_core_profiler(const char *_out_filename, int isto_prin
   /* initialize the 'function_meter' */
   S = lprofM_init();
   if(!S) {
+    lprofCache_write_all(outf);
     fclose(outf);
     return 0;
   }
@@ -177,7 +197,11 @@ lprofP_STATE* lprofP_init_core_profiler(const char *_out_filename, int isto_prin
 }
 
 void lprofP_close_core_profiler(lprofP_STATE* S) {
-  if(outf) fclose(outf);
+  if(outf) {
+    lprofCache_write_all(outf);
+    fclose(outf);
+  }
+
   if(S) free(S);
 }
 
@@ -195,3 +219,6 @@ lprofP_STATE* lprofP_create_profiler(float _function_call_time) {
   return S;
 }
 
+#ifdef __cplusplus
+}
+#endif

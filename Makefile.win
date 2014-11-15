@@ -5,7 +5,7 @@ V= 2.0.1
 
 include config.win
 
-OBJS= src\clocks.obj src\core_profiler.obj src\function_meter.obj src\stack.obj src\lua50_profiler.obj
+OBJS= src\clocks.obj src\cache.obj src\core_profiler.obj src\function_meter.obj src\stack.obj src\lua50_profiler.obj
 
 lib: src\$(LIBNAME)
 

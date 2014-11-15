@@ -12,6 +12,11 @@ stack.h:
 #ifndef _STACK_H
 #define _STACK_H
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+    
+
 #include <time.h>
 
 typedef struct lprofS_sSTACK_RECORD lprofS_STACK_RECORD;
@@ -41,4 +46,8 @@ struct lprofP_sSTATE {
 void lprofS_push(lprofS_STACK *p, lprofS_STACK_RECORD r);
 lprofS_STACK_RECORD lprofS_pop(lprofS_STACK *p);
 
+#endif
+    
+#ifdef __cplusplus
+}
 #endif
