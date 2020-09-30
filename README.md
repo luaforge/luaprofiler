@@ -1,4 +1,4 @@
-####LuaProfiler
+#### LuaProfiler
 ===============
 
 <http://www.keplerproject.org/luaprofiler>
@@ -18,7 +18,7 @@ LuaProfiler can be downloaded from the LuaForge page, or from LuaRocks
 
 ```("luarocks install luaprofiler")```
 
-##Installation
+## Installation
 ===============
 
 LuaProfiler source is distributed as a group of C files and some makefile templates.
