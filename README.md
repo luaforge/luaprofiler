@@ -1,5 +1,7 @@
-LuaProfiler
-http://www.keplerproject.org/luaprofiler
+####LuaProfiler
+===============
+
+<http://www.keplerproject.org/luaprofiler>
 
 LuaProfiler is a time profiler designed to help finding bottlenecks on your Lua program.
 
@@ -8,17 +10,20 @@ and their respective running times. You can use this log to generate a summary o
 functions your program uses, along with how long it stayed in each of them, or you can
 import the log into a spreadsheet for further analysis.
 
-LuaProfiler is free software and uses the same license as Lua 5.1.
+LuaProfiler is free software and uses the same ``` license as Lua 5.1. ```
 
-Current version is 2.0.2. It was developed for Lua 5.1.
+Current version is ``` 2.0.2. ``` It was developed for Lua 5.1.
 
-LuaProfiler can be downloaded from the LuaForge page, or from LuaRocks ("luarocks install
-luaprofiler").
+LuaProfiler can be downloaded from the LuaForge page, or from LuaRocks 
 
-Installation
+```("luarocks install luaprofiler")```
+
+##Installation
+===============
 
 LuaProfiler source is distributed as a group of C files and some makefile templates.
 
 LuaProfiler follows the package model for Lua 5.1, therefore it should be "installed" in your package.path.
 
 Windows users can use the pre-compiled version of LuaProfiler (profiler.dll) available at LuaForge.
+© 2020 GitHub, Inc.
